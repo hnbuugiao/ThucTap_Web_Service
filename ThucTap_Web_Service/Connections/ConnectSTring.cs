@@ -17,5 +17,11 @@ namespace ThucTap_Web_Service.Connections
         {
             this.connectionstring = link;
         }
+
+        public string GetConnectString()
+        {
+            return this.connectionstring;
+        }
+
     }
 }
