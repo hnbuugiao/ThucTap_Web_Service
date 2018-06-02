@@ -9,10 +9,9 @@ using System.Globalization;
 using NpgsqlTypes;
 using Newtonsoft.Json;
 
-
 namespace ThucTap_Web_Service.Repositories
 {
-    public class NhanVienRepository
+    public class ThuocRepository
     {
         ConnectString connect = new ConnectString();
         public string GetConnectString()
@@ -20,14 +19,13 @@ namespace ThucTap_Web_Service.Repositories
             return connect.connectionstring;
         }
 
-        public static string AddNhanVienToDB(NhanVien nhanvien)
+        public static string AddThuocToDB(Thuoc thuoc)
         {
-
             //Câu lệnh SQL thêm vào Database
-            string query = "INSERT INTO current.dmnhanvien VALUES(@manv,@hoten,@taikhoan,@matkhau)";
+            string query = "INSERT INTO current.dmthuoc VALUES(@mahh,@tenhh,@dtv)";
 
             //Get connectioin từ folder Conections
-            NhanVienRepository getstring = new NhanVienRepository();
+            ThuocRepository getstring = new ThuocRepository();
             string connectstring = getstring.GetConnectString();
             //Tạo kết nối tới PostgreSQL
             NpgsqlConnection conn = new NpgsqlConnection(connectstring);
@@ -37,10 +35,9 @@ namespace ThucTap_Web_Service.Repositories
             {
                 conn.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.Add("@manv", NpgsqlDbType.Varchar).Value = nhanvien.manv;
-                cmd.Parameters.Add("@hoten", NpgsqlDbType.Varchar).Value = nhanvien.hoten;
-                cmd.Parameters.Add("@taikhoan", NpgsqlDbType.Varchar).Value = nhanvien.taikhoan;
-                cmd.Parameters.Add("@matkhau", NpgsqlDbType.Varchar).Value = nhanvien.matkhau;
+                cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value = thuoc.mahh;
+                cmd.Parameters.Add("@tenhh", NpgsqlDbType.Varchar).Value = thuoc.tenhh;
+                cmd.Parameters.Add("@dtv", NpgsqlDbType.Varchar).Value = thuoc.dvt;
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
@@ -54,17 +51,17 @@ namespace ThucTap_Web_Service.Repositories
             }
         }
 
-        public static List<NhanVien> ShowAllNhanVienFromDB()
+        public static List<Thuoc> ShowAllThuocFromDB()
         {
             // Lấy connection
-            BenhNhanRepository getstring = new BenhNhanRepository();
+            ThuocRepository getstring = new ThuocRepository();
             string connectstring = getstring.GetConnectString();
 
             // Câu truy vấn chọn hết dữ liệu từ Database
-            var query = "SELECT * FROM current.dmnhanvien";
+            var query = "SELECT * FROM current.dmthuoc";
 
             // Tạo List chứa dữ liệu
-            List<NhanVien> list = new List<NhanVien>();
+            List<Thuoc> list = new List<Thuoc>();
 
             //Tạo kết nối
             NpgsqlConnection conn = new NpgsqlConnection(connectstring);
@@ -78,7 +75,8 @@ namespace ThucTap_Web_Service.Repositories
                 NpgsqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    list.Add(new NhanVien(reader.GetString(0), reader.GetString(1), reader.GetString(2),reader.GetString(3)));
+                    // Thêm vào list
+                    list.Add(new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
                 }
                 conn.Close();
                 Console.WriteLine("Thành công");
@@ -91,57 +89,58 @@ namespace ThucTap_Web_Service.Repositories
             }
         }
 
-        public static bool ShowNhanVienFromDB(String taikhoan,String matkhau)
+        public static List<Thuoc> ShowThuocFromDB(String mahh)
         {
             //Lấy connection
-            NhanVienRepository getstring = new NhanVienRepository();
+            BenhNhanRepository getstring = new BenhNhanRepository();
             string connectstring = getstring.GetConnectString();
 
             //Câu truy vấn dữ liệu với điều kiện Mã bệnh nhân
-            var query = "SELECT * FROM current.dmnhanvien WHERE taikhoan = @taikhoan AND matkhau = @matkhau";
-            List<NhanVien> list = new List<NhanVien>();
+            var query = "SELECT * FROM current.dmthuoc WHERE mahh = @mahh";
+
+            List<Thuoc> list = new List<Thuoc>();
             NpgsqlConnection conn = new NpgsqlConnection(connectstring);
 
             try
             {
                 conn.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn); ;
-                cmd.Parameters.Add("@taikhoan", NpgsqlDbType.Varchar).Value = taikhoan;
-                cmd.Parameters.Add("@matkhau", NpgsqlDbType.Varchar).Value = matkhau;
+                //cmd.Parameters.Add("@mabn", NpgsqlDbType.Varchar).Value = mabn;
                 NpgsqlDataReader reader = cmd.ExecuteReader();
+                cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value = mahh;
                 while (reader.Read())
                 {
-                    list.Add(new NhanVien(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+   
+                    list.Add(new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
 
                 }
                 conn.Close();
                 Console.WriteLine("Thành công");
-                return list.Count>0?true:false;
+                return list;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Thất bại");
-                return list.Count > 0 ? true : false;
+                return list;
             }
         }
 
-        public static bool SuaThongTinNhanVien(NhanVien nhanvien)
+        public static bool SuaThongTinThuoc(Thuoc thuoc)
         {
-            NhanVienRepository getstring = new NhanVienRepository();
+            ThuocRepository getstring = new ThuocRepository();
             string connectstring = getstring.GetConnectString();
 
-
             // Câu lệnh cập nhật bệnh nhân dựa theo mã bệnh nhân,cập nhật dữ liệu các trường còn lại
-            String query = "UPDATE current.dmnhanvien SET hoten=@hoten,matkhau=@hoten WHERE manv=@manv";
+            String query = "UPDATE current.dmthuoc SET tenhh = @tenhh, dvt = @dvt WHERE mahh = @mahh";
             NpgsqlConnection conn = new NpgsqlConnection(connectstring);
 
             try
             {
                 conn.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.Add("@hoten", NpgsqlDbType.Varchar).Value = nhanvien.hoten;
-                cmd.Parameters.Add("@hoten", NpgsqlDbType.Varchar).Value = nhanvien.hoten;
-                cmd.Parameters.Add("@manv", NpgsqlDbType.Varchar).Value = nhanvien.manv;
+                cmd.Parameters.Add("@tenhh", NpgsqlDbType.Varchar).Value = thuoc.tenhh;
+                cmd.Parameters.Add("@dvt", NpgsqlDbType.Varchar).Value = thuoc.dvt;
+                cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value = thuoc.mahh;
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 Console.WriteLine("Thành công");
@@ -155,32 +154,31 @@ namespace ThucTap_Web_Service.Repositories
             }
         }
 
-        public static string XoaNhanVien(string manv)
+        public static bool XoaThuoc(string mahh)
         {
-            BenhNhanRepository getstring = new BenhNhanRepository();
+            ThuocRepository getstring = new ThuocRepository();
             string connectstring = getstring.GetConnectString();
 
             // Câu truy vấn xoá bệnh nhân với Mã bệnh nhân
-            var query = "DELETE FROM current.dmnhanvien WHERE manv =@manv";
+            var query = "DELETE FROM current.dmthuoc WHERE mahh =@mahh";
             NpgsqlConnection conn = new NpgsqlConnection(connectstring);
 
             try
             {
                 conn.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.Add("@manv", NpgsqlDbType.Varchar).Value = manv;
+                cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value = mahh;
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 Console.WriteLine("Thành công");
-                return query;
+                return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Thất bại");
-                return e.Message;
+                return false;
 
             }
         }
-
     }
 }

@@ -187,17 +187,21 @@
     <Compile Include="Controllers\BenhNhanController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NhanVienController.cs" />
+    <Compile Include="Controllers\ThuocController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BenhNhan.cs" />
     <Compile Include="Models\NhanVien.cs" />
+    <Compile Include="Models\Thuoc.cs" />
     <Compile Include="Processors\BenhNhanProcessor.cs" />
     <Compile Include="Processors\NhanVienProcessor.cs" />
+    <Compile Include="Processors\ThuocProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BenhNhanRepository.cs" />
     <Compile Include="Repositories\NhanVienRepository.cs" />
+    <Compile Include="Repositories\ThuocRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
