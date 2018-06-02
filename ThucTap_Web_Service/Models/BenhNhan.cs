@@ -5,7 +5,6 @@ using System.Web;
 
 namespace ThucTap_Web_Service.Models
 {
-    //Oktest
     public class BenhNhan
     {
         public string mabn { get; set; }
