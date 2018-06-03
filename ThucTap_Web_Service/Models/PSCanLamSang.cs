@@ -8,6 +8,7 @@ namespace ThucTap_Web_Service.Models
     public class PSCanLamSang
     {
         public int ID { get; set; }
+        public string Iddienbien { get; set; }
         public string Mabn { get; set; }
         public string Maba { get; set; }
         public string Makhoa { get; set; }
@@ -16,9 +17,10 @@ namespace ThucTap_Web_Service.Models
         public double Dongia { get; set; }
 
         public PSCanLamSang() { }
-        public PSCanLamSang(int id,string mabn,string  maba,string mak,string macls,double dg)
+        public PSCanLamSang(int id,string Iddienbien,string mabn,string  maba,string mak,string macls,double dg)
         {
             this.ID = id;
+            this.Iddienbien = Iddienbien;
             this.Mabn = mabn;
             this.Maba = maba;
             this.Makhoa = mak;

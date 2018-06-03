@@ -19,15 +19,17 @@ namespace ThucTap_Web_Service.Repositories
         {
             try
             {
-                string query = "INSERT INTO current.pscls VALUES(@mabn,@maba,@makhoa,@macls,@dongia)";
+              
+                string query = "INSERT INTO current.pscls(Iddienbien,mabn,maba,makhoa,macls,dongia) VALUES(@Iddienbien,@mabn,@maba,@makhoa,@macls,@dongia)";
                 NpgsqlConnection conn = new NpgsqlConnection(connectstring);
+                conn.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-              //  cmd.Parameters.Add("@ID", NpgsqlDbType.Numeric).Value = cls.ID;
+                cmd.Parameters.Add("@Iddienbien", NpgsqlDbType.Varchar).Value = cls.Iddienbien;
                 cmd.Parameters.Add("@mabn", NpgsqlDbType.Varchar).Value = cls.Mabn;
-                cmd.Parameters.Add("@maba", NpgsqlDbType.Varchar).Value = cls.Mabn;
-                cmd.Parameters.Add("@makhoa", NpgsqlDbType.Varchar).Value = cls.Mabn;
-                cmd.Parameters.Add("@macls", NpgsqlDbType.Varchar).Value = cls.Mabn;
-                cmd.Parameters.Add("@dongia", NpgsqlDbType.Double).Value = cls.Mabn;
+                cmd.Parameters.Add("@maba", NpgsqlDbType.Varchar).Value = cls.Maba;
+                cmd.Parameters.Add("@makhoa", NpgsqlDbType.Varchar).Value = cls.Makhoa;
+                cmd.Parameters.Add("@macls", NpgsqlDbType.Varchar).Value = cls.Macls;
+                cmd.Parameters.Add("@dongia", NpgsqlDbType.Numeric).Value = cls.Dongia;
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 return "Thêm thành công";
@@ -35,7 +37,7 @@ namespace ThucTap_Web_Service.Repositories
             catch(Exception e)
             {
                 Console.WriteLine("loi them pscls: " + e.Message);
-                return "Thêm Thất bại";
+                return e.Message;
             }
             
         }
@@ -44,15 +46,17 @@ namespace ThucTap_Web_Service.Repositories
         {
             try
             {
-                string query = "UPDATE current.pscls SET mabn=@mabn,maba=@maba,makhoa=@makhoa,macls=@macls,dongia=@dongia WHERE ID=@ID)";
+                string query = "UPDATE current.pscls SET Iddienbien=@Iddienbien,mabn=@mabn,maba=@maba,makhoa=@makhoa,macls=@macls,dongia=@dongia WHERE ID=@ID";
                 NpgsqlConnection conn = new NpgsqlConnection(connectstring);
+                conn.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.Add("@ID", NpgsqlDbType.Numeric).Value = cls.ID;
+                cmd.Parameters.Add("@ID", NpgsqlDbType.Integer).Value = cls.ID;
+                cmd.Parameters.Add("@Iddienbien", NpgsqlDbType.Varchar).Value = cls.Iddienbien;
                 cmd.Parameters.Add("@mabn", NpgsqlDbType.Varchar).Value = cls.Mabn;
-                cmd.Parameters.Add("@maba", NpgsqlDbType.Varchar).Value = cls.Mabn;
-                cmd.Parameters.Add("@makhoa", NpgsqlDbType.Varchar).Value = cls.Mabn;
-                cmd.Parameters.Add("@macls", NpgsqlDbType.Varchar).Value = cls.Mabn;
-                cmd.Parameters.Add("@dongia", NpgsqlDbType.Double).Value = cls.Mabn;
+                cmd.Parameters.Add("@maba", NpgsqlDbType.Varchar).Value = cls.Maba;
+                cmd.Parameters.Add("@makhoa", NpgsqlDbType.Varchar).Value = cls.Makhoa;
+                cmd.Parameters.Add("@macls", NpgsqlDbType.Varchar).Value = cls.Macls;
+                cmd.Parameters.Add("@dongia", NpgsqlDbType.Numeric).Value = cls.Dongia;
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 return "Sửa thành công";
@@ -60,7 +64,7 @@ namespace ThucTap_Web_Service.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("loi them pscls: " + e.Message);
-                return "Sửa Thất bại";
+                return e.Message;
             }
 
         }
@@ -84,15 +88,16 @@ namespace ThucTap_Web_Service.Repositories
             try
             {
                 conn.Open();
-                NpgsqlCommand cmd = new NpgsqlCommand(query, conn); ;
+                NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
+            
                 NpgsqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     // Thêm vào list
-                    list.Add(new PSCanLamSang(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetDouble(5)));
+                    list.Add(new PSCanLamSang(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetDouble(6)));
                 }
                 conn.Close();
-                Console.WriteLine("Thành công");
+                Console.WriteLine("Thành công: "+list.ToString());
                 return list;
             }
             catch (Exception e)
@@ -125,7 +130,7 @@ namespace ThucTap_Web_Service.Repositories
                 NpgsqlDataReader reader = cmd.ExecuteReader();
                 
                     // Thêm vào list
-                pscls= new PSCanLamSang(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetDouble(5));
+                pscls= new PSCanLamSang(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetDouble(6));
                
                 conn.Close();
                 Console.WriteLine("Thành công");
@@ -138,7 +143,7 @@ namespace ThucTap_Web_Service.Repositories
             }
         }
 
-        public static string XoaPSCLS(string macls)
+        public static string XoaPSCLS(int macls)
         {
  
 

@@ -10,7 +10,7 @@ using ThucTap_Web_Service.Processors;
 
 namespace ThucTap_Web_Service.Controllers
 {
-    public class PSPSCanLamSanggController : ApiController
+    public class PSCanLamSangController : ApiController
     {
         [HttpPost]
         public string ThemCLS([FromBody]PSCanLamSang PSCanLamSang)
@@ -42,7 +42,7 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpPut]
-        public string SuaThongTin(PSCanLamSang PSCanLamSang)
+        public string SuaThongTin([FromBody]PSCanLamSang PSCanLamSang)
         {
             if (PSCanLamSang == null)
             {
@@ -55,10 +55,7 @@ namespace ThucTap_Web_Service.Controllers
         [HttpDelete]
         public string XoaCLS(int id)
         {
-            if (id == null)
-            {
-                return "NULL";
-            }
+           
             return PSCanLamSangProcessor.XoaPSCLS(id);
         }
     

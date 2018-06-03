@@ -29,7 +29,7 @@ namespace ThucTap_Web_Service.Processors
             return PSCanLamSangRepository.UpdatePSCanLanSang(canlamsan);
         }
 
-        public static string XoaPSCLS(string macls)
+        public static string XoaPSCLS(int macls)
         {
             return PSCanLamSangRepository.XoaPSCLS(macls);
         }
