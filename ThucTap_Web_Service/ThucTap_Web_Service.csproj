@@ -189,6 +189,7 @@
     <Compile Include="Controllers\DienBienController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NhanVienController.cs" />
+    <Compile Include="Controllers\PSCanLamSangController.cs" />
     <Compile Include="Controllers\ThuocController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -198,17 +199,20 @@
     <Compile Include="Models\CanLamSan.cs" />
     <Compile Include="Models\DienBien.cs" />
     <Compile Include="Models\NhanVien.cs" />
+    <Compile Include="Models\PSCanLamSang.cs" />
     <Compile Include="Models\Thuoc.cs" />
     <Compile Include="Processors\BenhNhanProcessor.cs" />
     <Compile Include="Processors\CanLamSanProcessor.cs" />
     <Compile Include="Processors\DienBienProcessor.cs" />
     <Compile Include="Processors\NhanVienProcessor.cs" />
+    <Compile Include="Processors\PSCanLamSangProcessor.cs" />
     <Compile Include="Processors\ThuocProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BenhNhanRepository.cs" />
     <Compile Include="Repositories\CanLamSanRepository.cs" />
     <Compile Include="Repositories\DienBienRepository.cs" />
     <Compile Include="Repositories\NhanVienRepository.cs" />
+    <Compile Include="Repositories\PSCanLamSangRepository.cs" />
     <Compile Include="Repositories\ThuocRepository.cs" />
   </ItemGroup>
   <ItemGroup>

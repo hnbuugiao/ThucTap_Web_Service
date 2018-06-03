@@ -22,7 +22,7 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpPut]
-        public string SuaDienBien(DienBien dienbien)
+        public string SuaDienBien([FromBody]DienBien dienbien)
         {
             if (dienbien == null)
             {

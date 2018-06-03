@@ -10,14 +10,14 @@ namespace ThucTap_Web_Service.Models
         public string macls { get; set; }
         public string tencls { get; set; }
         public string dvt { get; set; }
-        public int dongia { get; set; }
+        public double dongia { get; set; }
 
         public CanLamSan()
         {
 
         }
 
-        public CanLamSan(string macls, string tencls, string dvt, int dongia)
+        public CanLamSan(string macls, string tencls, string dvt, double dongia)
         {
             this.macls = macls;
             this.tencls = tencls;
