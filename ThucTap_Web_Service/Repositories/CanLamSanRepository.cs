@@ -38,7 +38,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.Parameters.Add("@macls", NpgsqlDbType.Varchar).Value = canlamsan.macls;
                 cmd.Parameters.Add("@tencls", NpgsqlDbType.Varchar).Value = canlamsan.tencls;
                 cmd.Parameters.Add("@dvt", NpgsqlDbType.Varchar).Value = canlamsan.dvt;
-                cmd.Parameters.Add("@dongia", NpgsqlDbType.Integer).Value = canlamsan.dongia;
+                cmd.Parameters.Add("@dongia", NpgsqlDbType.Double).Value = canlamsan.dongia;
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
@@ -137,7 +137,7 @@ namespace ThucTap_Web_Service.Repositories
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.Add("@tencls", NpgsqlDbType.Varchar).Value = canlamsan.tencls;
                 cmd.Parameters.Add("@dvt", NpgsqlDbType.Varchar).Value = canlamsan.dvt;
-                cmd.Parameters.Add("@dongia", NpgsqlDbType.Integer).Value = canlamsan.dongia;
+                cmd.Parameters.Add("@dongia", NpgsqlDbType.Double).Value = canlamsan.dongia;
                 cmd.Parameters.Add("@macls", NpgsqlDbType.Varchar).Value = canlamsan.macls;
                 cmd.ExecuteNonQuery();
                 conn.Close();

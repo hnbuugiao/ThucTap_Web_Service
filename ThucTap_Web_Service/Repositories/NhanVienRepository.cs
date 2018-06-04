@@ -86,6 +86,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception e)
             {
+                conn.Close();
                 Console.WriteLine(e.Message);
                 return list;
             }
@@ -120,6 +121,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception e)
             {
+                conn.Close();
                 Console.WriteLine("Thất bại");
                 return list.Count > 0 ? true : false;
             }
@@ -149,6 +151,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception)
             {
+                conn.Close();
                 Console.WriteLine("Thất bại");
                 return false;
 
@@ -176,6 +179,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception e)
             {
+                conn.Close();
                 Console.WriteLine("Thất bại");
                 return e.Message;
 

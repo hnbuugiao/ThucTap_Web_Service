@@ -33,6 +33,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch(Exception e)
             {
+                conn.Close();
                 return e.Message;
             }
         }
@@ -57,6 +58,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception e)
             {
+                conn.Close();
                 return e.Message;
             }
         }
@@ -73,7 +75,7 @@ namespace ThucTap_Web_Service.Repositories
                 var reader=cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    listpsthuoc.Add(new PSThuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5)));
+                    listpsthuoc.Add(new PSThuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetDouble(5)));
                 }
                 conn.Close();
                 
@@ -81,6 +83,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch(Exception e)
             {
+                conn.Close();
                 Console.WriteLine(e.Message);
             }
             return listpsthuoc;
@@ -100,7 +103,7 @@ namespace ThucTap_Web_Service.Repositories
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    psthuoc=new PSThuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5));
+                    psthuoc=new PSThuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetDouble(5));
                 }
                 conn.Close();
 
@@ -108,6 +111,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception e)
             {
+                conn.Close();
                 Console.WriteLine(e.Message);
             }
             return psthuoc;

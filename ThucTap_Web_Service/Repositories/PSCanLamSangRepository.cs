@@ -14,14 +14,14 @@ namespace ThucTap_Web_Service.Repositories
     public class PSCanLamSangRepository
     {
         private static string connectstring = new ConnectString().GetConnectString();
-       
+        private static NpgsqlConnection conn = new NpgsqlConnection(connectstring);
         public static string AddPSCanLanSangToDB(PSCanLamSang cls)
         {
             try
             {
               
                 string query = "INSERT INTO current.pscls(Iddienbien,mabn,maba,makhoa,macls,dongia) VALUES(@Iddienbien,@mabn,@maba,@makhoa,@macls,@dongia)";
-                NpgsqlConnection conn = new NpgsqlConnection(connectstring);
+               
                 conn.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.Add("@Iddienbien", NpgsqlDbType.Varchar).Value = cls.Iddienbien;
@@ -36,6 +36,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch(Exception e)
             {
+                conn.Close();
                 Console.WriteLine("loi them pscls: " + e.Message);
                 return e.Message;
             }
@@ -63,6 +64,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception e)
             {
+                conn.Close();
                 Console.WriteLine("loi them pscls: " + e.Message);
                 return e.Message;
             }
@@ -102,6 +104,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception e)
             {
+                conn.Close();
                 Console.WriteLine(e.Message);
                 return list;
             }
@@ -138,6 +141,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception e)
             {
+                conn.Close();
                 Console.WriteLine(e.Message);
                 return pscls;
             }
@@ -163,6 +167,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception)
             {
+                conn.Close();
                 Console.WriteLine("Xóa Thất bại");
                 return "Xóa Thất bại";
 
