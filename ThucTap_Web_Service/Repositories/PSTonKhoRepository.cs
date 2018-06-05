@@ -84,6 +84,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception e)
             {
+                conn.Close();
                 Console.WriteLine(e.Message);
             }
             return listpstonkho;
@@ -107,6 +108,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch (Exception e)
             {
+                conn.Close();
                 Console.WriteLine(e.Message);
             }
             return pstonkho;

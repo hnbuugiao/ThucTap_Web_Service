@@ -133,6 +133,7 @@ namespace ThucTap_Web_Service.Repositories
             }
             catch(Exception e)
             {
+                conn.Close();
                 return e.Message;
             }
         }

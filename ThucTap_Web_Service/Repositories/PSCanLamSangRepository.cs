@@ -131,10 +131,11 @@ namespace ThucTap_Web_Service.Repositories
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.Add("@ID", NpgsqlDbType.Numeric).Value = id;
                 NpgsqlDataReader reader = cmd.ExecuteReader();
-                
-                    // Thêm vào list
-                pscls= new PSCanLamSang(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetDouble(6));
-               
+
+                while (reader.Read())
+                {
+                    pscls = new PSCanLamSang(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetDouble(6));
+                }
                 conn.Close();
                 Console.WriteLine("Thành công");
                 return pscls;
