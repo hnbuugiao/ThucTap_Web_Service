@@ -20,7 +20,7 @@ namespace ThucTap_Web_Service.Processors
             return ThuocRepository.ShowAllThuocFromDB();
         }
 
-        public static List<Thuoc> ShowThuoc(string mahh)
+        public static Thuoc ShowThuoc(string mahh)
         {
             return ThuocRepository.ShowThuocFromDB(mahh);
         }
@@ -35,9 +35,6 @@ namespace ThucTap_Web_Service.Processors
             return ThuocRepository.XoaThuoc(mahh);
         }
 
-        public static string ThongKe()
-        {
-            return BenhNhanRepository.ThongKe();
-        }
+
     }
 }

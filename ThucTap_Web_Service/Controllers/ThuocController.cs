@@ -26,22 +26,15 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpGet]
-        public string HienThiThuoc()
+        public List<Thuoc> HienThiThuoc()
         {
-            List<Thuoc> list = new List<Thuoc>();
-            list = ThuocProcessor.ShowAllThuoc();
-            var convertedJson = JsonConvert.SerializeObject(list);
-            return convertedJson;
+            return ThuocProcessor.ShowAllThuoc();
         }
 
         [HttpGet]
-        public string HienThiThuoc(string id)
+        public Thuoc HienThiThuoc(string id)
         {
-            List<Thuoc> list = new List<Thuoc>();
-            list = ThuocProcessor.ShowThuoc(id);
-
-            var convertedJson = JsonConvert.SerializeObject(list);
-            return convertedJson;
+            return ThuocProcessor.ShowThuoc(id);
         }
 
         [HttpPut]
