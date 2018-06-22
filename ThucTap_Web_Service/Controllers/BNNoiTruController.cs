@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json;
 using ThucTap_Web_Service.Models;
 using ThucTap_Web_Service.Processors;
 
@@ -14,9 +15,17 @@ namespace ThucTap_Web_Service.Controllers
         [HttpPost]
         public string ThemBNNoiTru([FromBody]BNNoiTru BNNoiTru)
         {
-            if (BNNoiTru == null)
+            if (BNNoiTru.Mabn == "")
             {
-                return "NULL";
+                return "Chưa nhập mã bệnh nhân";
+            }
+            if (BNNoiTru.Maba == "")
+            {
+                return "Chua nhập mã bệnh án";
+            }
+            if (BNNoiTru.Makhoa == "")
+            {
+                return "Chưa nhập mã khoa";
             }
             return BNNoiTruProcessor.ThemBNNoiTru(BNNoiTru);
         }
@@ -29,15 +38,21 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpGet]
-        public List<BNNoiTru> DanhMucBNNoiTru()
+        public string DanhMucBNNoiTru()
         {
-            return BNNoiTruProcessor.DanhMucBNNoiTru();
+            return JsonConvert.SerializeObject(BNNoiTruProcessor.DanhMucBNNoiTru());
         }
 
         [HttpGet]
-        public BNNoiTru ThongTinBNNoiTru(int id)
+        public string ThongTinBNNoiTru(int id)
         {
-            return BNNoiTruProcessor.ThongTinBNNoiTru(id);
+            BNNoiTru bn = BNNoiTruProcessor.ThongTinBNNoiTru(id);
+            if (bn.Mabn == null)
+            {
+                return "NULL";
+            }
+            
+            return JsonConvert.SerializeObject(bn);
         }
 
         [HttpDelete]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -27,15 +28,20 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpGet]
-        public List<PSChiTietThuoc> DanhMucPSChiTietThuoc()
+        public string DanhMucPSChiTietThuoc()
         {
-            return PSChiTietThuocProcessor.DanhMucPSChiTietThuoc();
+            return JsonConvert.SerializeObject(PSChiTietThuocProcessor.DanhMucPSChiTietThuoc());
         }
 
         [HttpGet]
-        public PSChiTietThuoc ThongTinPSChiTietThuoc(int id)
+        public string ThongTinPSChiTietThuoc(int id)
         {
-            return PSChiTietThuocProcessor.ThongTinPSChiTietThuoc(id);
+            PSChiTietThuoc psctt = PSChiTietThuocProcessor.ThongTinPSChiTietThuoc(id);
+            if (psctt.ID == 0)
+            {
+                return "NULL";
+            }
+            return JsonConvert.SerializeObject(psctt);
         }
 
         [HttpDelete]

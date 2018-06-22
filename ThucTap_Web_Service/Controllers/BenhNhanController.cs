@@ -17,9 +17,9 @@ namespace ThucTap_Web_Service.Controllers
         [HttpPost]
         public string ThemBenhNhan([FromBody]BenhNhan benhnhan)
         {
-            if (benhnhan == null)
+            if (benhnhan.mabn == "" || benhnhan.ten == "" || benhnhan.holot == "" || benhnhan.ngaysinh == "")
             {
-                return "NULL";
+                return "Chưa nhập đầy đủ thông tin";
             }
             return BenhNhanProcessor.AddBenhNhan(benhnhan);
         }

@@ -13,7 +13,7 @@ namespace ThucTap_Web_Service.Repositories
     {
         private static string connectstring = new ConnectString().GetConnectString();
         private static NpgsqlConnection conn = new NpgsqlConnection(connectstring);
-
+        public static ThongBao tb = new ThongBao();
         public static string AddBNNoiTru(BNNoiTru bnnoitru)
         {
             string query = "INSERT INTO current.bnnoitru(mabn,maba,makhoa,maicd,tenicd,maicdp,tenicdp) VALUES(@mabn,@maba,@makhoa,@maicd,@tenicd,@maicdp,@tenicdp)";
@@ -30,7 +30,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.Parameters.Add("@tenicdp", NpgsqlDbType.Varchar).Value = bnnoitru.Tenicdp;
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                return "Thêm thành công";
+                return tb.add_successed;
             }
             catch (Exception e)
             {
@@ -57,7 +57,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.Parameters.Add("@tenicdp", NpgsqlDbType.Varchar).Value = bnnoitru.Tenicdp;
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                return "Sửa thành công";
+                return tb.update_successed;
             }
             catch (Exception e)
             {

@@ -36,7 +36,10 @@ namespace ThucTap_Web_Service.Controllers
         {
            PSCanLamSang list = new PSCanLamSang();
             list =PSCanLamSangProcessor.ShowPSCLS(id);
-
+            if (list.ID == 0)
+            {
+                return null;
+            }
             var convertedJson = JsonConvert.SerializeObject(list);
             return convertedJson;
         }

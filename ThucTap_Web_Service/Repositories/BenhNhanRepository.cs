@@ -14,6 +14,7 @@ namespace ThucTap_Web_Service.Repositories
     public class BenhNhanRepository
     {
         ConnectString connect = new ConnectString();
+        public static ThongBao tb = new ThongBao();
         public string GetConnectString()
         {
             return connect.connectionstring;
@@ -51,7 +52,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
     
-                return "Thêm thành công!";
+                return tb.add_successed;
             }
             // Bắt trường hợp lỗi
             catch (Exception e)

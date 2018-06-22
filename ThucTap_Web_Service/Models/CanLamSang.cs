@@ -5,19 +5,19 @@ using System.Web;
 
 namespace ThucTap_Web_Service.Models
 {
-    public class CanLamSan
+    public class CanLamSang
     {
         public string macls { get; set; }
         public string tencls { get; set; }
         public string dvt { get; set; }
         public double dongia { get; set; }
 
-        public CanLamSan()
+        public CanLamSang()
         {
 
         }
 
-        public CanLamSan(string macls, string tencls, string dvt, double dongia)
+        public CanLamSang(string macls, string tencls, string dvt, double dongia)
         {
             this.macls = macls;
             this.tencls = tencls;

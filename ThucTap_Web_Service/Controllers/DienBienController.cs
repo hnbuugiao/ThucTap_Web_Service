@@ -45,6 +45,8 @@ namespace ThucTap_Web_Service.Controllers
         {
             DienBien db = new DienBien();
             db = DienBienProcessor.ShowDienBien(madb);
+            if (db.Iddienbien == null)
+                return "NULL";
             var convertJson = JsonConvert.SerializeObject(db);
             return convertJson;
         }

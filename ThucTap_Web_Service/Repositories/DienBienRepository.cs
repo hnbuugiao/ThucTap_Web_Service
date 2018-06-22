@@ -13,13 +13,14 @@ namespace ThucTap_Web_Service.Repositories
     public class DienBienRepository
     {
         private static string connectstring = new ConnectString().GetConnectString();
+        public static ThongBao tb = new ThongBao();
 
+ 
         public static string AddDienBienToDB(DienBien dienbien)
         {
             //Cấu trúc connection
             //var connectionstring = "Server=127.0.0.1;Port=5432;User Id=postgres;Password=123456;Database=svthuctap;";
-
-
+            //check benh an ton tai
             //Câu lệnh SQL thêm vào Database
             string query = "INSERT INTO current.dienbien VALUES(@Iddienbien,@mabn,@maba,@makhoa,@magiuong,@manv,@maicd,@tenicd,@maicdp,@tenicdp)";
 
@@ -110,7 +111,10 @@ namespace ThucTap_Web_Service.Repositories
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn); ;
                 cmd.Parameters.Add("@Iddienbien", NpgsqlDbType.Varchar).Value=madb;
                 NpgsqlDataReader reader = cmd.ExecuteReader();
-                db = new DienBien(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetString(9));
+                while (reader.Read())
+                {
+                    db = new DienBien(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetString(9));
+                }
                 conn.Close();
                 Console.WriteLine("Thành công");
                 return db;
@@ -149,13 +153,13 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 Console.WriteLine("Sửa Thành công");
-                return "Sửa thành công";
+                return tb.update_successed;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 conn.Close();
                 Console.WriteLine("Thất bại");
-                return "Sửa Thất Bại";
+                return e.Message;
 
             }
         }

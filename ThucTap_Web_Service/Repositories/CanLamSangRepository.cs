@@ -11,21 +11,21 @@ using Newtonsoft.Json;
 
 namespace ThucTap_Web_Service.Repositories
 {
-    public class CanLamSanRepository
+    public class CanLamSangRepository
     {
         ConnectString connect = new ConnectString();
         public string GetConnectString()
         {
             return connect.connectionstring;
         }
-
-        public static string AddCLSToDB(CanLamSan canlamsan)
+        public static ThongBao tb = new ThongBao();
+        public static string AddCLSToDB(CanLamSang canlamsan)
         {
             //Câu lệnh SQL thêm vào Database
             string query = "INSERT INTO current.dmcls VALUES(@macls,@tencls,@dvt,@dongia)";
 
             //Get connectioin từ folder Conections
-            CanLamSanRepository getstring = new CanLamSanRepository();
+            CanLamSangRepository getstring = new CanLamSangRepository();
             string connectstring = getstring.GetConnectString();
             //Tạo kết nối tới PostgreSQL
             NpgsqlConnection conn = new NpgsqlConnection(connectstring);
@@ -42,7 +42,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
-                return "Thêm thành công!";
+                return tb.add_successed;
             }
             // Bắt trường hợp lỗi
             catch (Exception e)
@@ -52,17 +52,17 @@ namespace ThucTap_Web_Service.Repositories
             }
         }
 
-        public static List<CanLamSan> ShowAllCLSFromDB()
+        public static List<CanLamSang> ShowAllCLSFromDB()
         {
             // Lấy connection
-            CanLamSanRepository getstring = new CanLamSanRepository();
+            CanLamSangRepository getstring = new CanLamSangRepository();
             string connectstring = getstring.GetConnectString();
 
             // Câu truy vấn chọn hết dữ liệu từ Database
             var query = "SELECT * FROM current.dmcls";
 
             // Tạo List chứa dữ liệu
-            List<CanLamSan> list = new List<CanLamSan>();
+            List<CanLamSang> list = new List<CanLamSang>();
 
             //Tạo kết nối
             NpgsqlConnection conn = new NpgsqlConnection(connectstring);
@@ -76,7 +76,7 @@ namespace ThucTap_Web_Service.Repositories
                 NpgsqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    list.Add(new CanLamSan(reader.GetString(0), reader.GetString(1), reader.GetString(2),reader.GetInt32(3)));
+                    list.Add(new CanLamSang(reader.GetString(0), reader.GetString(1), reader.GetString(2),reader.GetInt32(3)));
                 }
                 conn.Close();
                 Console.WriteLine("Thành công");
@@ -89,15 +89,15 @@ namespace ThucTap_Web_Service.Repositories
             }
         }
 
-        public static List<CanLamSan> ShowCLSFromDB(String macls)
+        public static CanLamSang ShowCLSFromDB(String macls)
         {
             //Lấy connection
-            CanLamSanRepository getstring = new CanLamSanRepository();
+            CanLamSangRepository getstring = new CanLamSangRepository();
             string connectstring = getstring.GetConnectString();
-
-            //Câu truy vấn dữ liệu với điều kiện Mã bệnh nhân
+            Console.WriteLine("connect to: " + connectstring);
+            //Câu truy vấn dữ liệu với điều kiện Mã CLS
             var query = "SELECT * FROM current.dmcls WHERE macls = @macls";
-            List<CanLamSan> list = new List<CanLamSan>();
+            CanLamSang list = new CanLamSang();
             NpgsqlConnection conn = new NpgsqlConnection(connectstring);
 
             try
@@ -108,23 +108,63 @@ namespace ThucTap_Web_Service.Repositories
                 NpgsqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    list.Add(new CanLamSan(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3)));
 
+                    list = new CanLamSang(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3));
                 }
+                
                 conn.Close();
-                Console.WriteLine("Thành công");
+                Console.WriteLine("cls " + list.macls);
                 return list;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Thất bại");
+                Console.WriteLine("loi lay cls: "+e.Message);
                 return list;
             }
         }
 
-        public static bool SuaThongTinCLS(CanLamSan canlamsan)
+        public static CanLamSang ShowCLSFromDB2(string macls)
         {
-            CanLamSanRepository getstring = new CanLamSanRepository();
+            // Lấy connection
+            CanLamSangRepository getstring = new CanLamSangRepository();
+            string connectstring = getstring.GetConnectString();
+            // Câu truy vấn chọn hết dữ liệu từ Database
+            var query = "SELECT * FROM current.dmcls WHERE macls=@macls";
+
+            // Tạo List chứa dữ liệu
+            CanLamSang pscls = new CanLamSang();
+
+            //Tạo kết nối
+            NpgsqlConnection conn = new NpgsqlConnection(connectstring);
+
+
+            // Lấy dữ liệu
+            try
+            {
+                conn.Open();
+                NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.Add("@macls", NpgsqlDbType.Numeric).Value = macls;
+                NpgsqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    pscls = new CanLamSang(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3));
+                }
+                conn.Close();
+                Console.WriteLine("Thành công");
+                return pscls;
+            }
+            catch (Exception e)
+            {
+                conn.Close();
+                Console.WriteLine(e.Message);
+                return pscls;
+            }
+        }
+
+        public static string SuaThongTinCLS(CanLamSang canlamsan)
+        {
+            CanLamSangRepository getstring = new CanLamSangRepository();
             string connectstring = getstring.GetConnectString();
 
             // Câu lệnh cập nhật bệnh nhân dựa theo mã bệnh nhân,cập nhật dữ liệu các trường còn lại
@@ -142,19 +182,19 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 Console.WriteLine("Thành công");
-                return true;
+                return tb.update_successed;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Console.WriteLine("Thất bại");
-                return false;
+                return e.Message;
 
             }
         }
 
-        public static bool XoaCLS(string macls)
+        public static string XoaCLS(string macls)
         {
-            CanLamSanRepository getstring = new CanLamSanRepository();
+            CanLamSangRepository getstring = new CanLamSangRepository();
             string connectstring = getstring.GetConnectString();
 
             // Câu truy vấn xoá bệnh nhân với Mã bệnh nhân
@@ -169,12 +209,12 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 Console.WriteLine("Thành công");
-                return true;
+                return "xóa thành công";
             }
             catch (Exception)
             {
                 Console.WriteLine("Thất bại");
-                return false;
+                return "xóa thất bại";
 
             }
         }

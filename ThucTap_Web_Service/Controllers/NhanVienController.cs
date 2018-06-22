@@ -46,11 +46,11 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpPut]
-        public bool SuaThongTin(NhanVien nhanvien)
+        public string SuaThongTin(NhanVien nhanvien)
         {
             if (nhanvien == null)
             {
-                return false;
+                return "NULL";
             }
             return NhanVienProcessor.SuaThongTinNhanVien(nhanvien);
         }

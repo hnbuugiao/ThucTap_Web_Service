@@ -15,6 +15,7 @@ namespace ThucTap_Web_Service.Repositories
     {
         private static string connectstring = new ConnectString().GetConnectString();
         private static NpgsqlConnection conn = new NpgsqlConnection(connectstring);
+        public static ThongBao tb = new ThongBao();
         ConnectString connect = new ConnectString();
         public string GetConnectString()
         {
@@ -44,7 +45,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
-                return "Thêm thành công!";
+                return tb.add_successed;
             }
             // Bắt trường hợp lỗi
             catch (Exception e)
@@ -79,7 +80,7 @@ namespace ThucTap_Web_Service.Repositories
                 while (reader.Read())
                 {
                     // Thêm vào list
-                    list.Add(new Thuoc(reader.GetString(0), reader.GetString(1),reader.GetString(2), reader.GetDouble(3)));
+                    list.Add(new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDouble(3)));
                 }
                 conn.Close();
                 Console.WriteLine("Thành công");
@@ -119,7 +120,7 @@ namespace ThucTap_Web_Service.Repositories
                 while (reader.Read())
                 {
                     // Thêm vào list
-                    list=new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDouble(3));
+                    list = new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDouble(3));
                 }
                 conn.Close();
                 Console.WriteLine("Thành công");
@@ -135,7 +136,7 @@ namespace ThucTap_Web_Service.Repositories
 
         }
 
-        public static bool SuaThongTinThuoc(Thuoc thuoc)
+        public static string SuaThongTinThuoc(Thuoc thuoc)
         {
             ThuocRepository getstring = new ThuocRepository();
             string connectstring = getstring.GetConnectString();
@@ -155,18 +156,18 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 Console.WriteLine("Thành công");
-                return true;
+                return tb.update_successed;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 conn.Close();
                 Console.WriteLine("Thất bại");
-                return false;
+                return e.Message;
 
             }
         }
 
-        public static bool XoaThuoc(string mahh)
+        public static string XoaThuoc(string mahh)
         {
             ThuocRepository getstring = new ThuocRepository();
             string connectstring = getstring.GetConnectString();
@@ -183,15 +184,100 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 Console.WriteLine("Thành công");
-                return true;
+                return "Xóa thành công";
             }
             catch (Exception)
             {
                 conn.Close();
                 Console.WriteLine("Thất bại");
-                return false;
+                return "Xóa thất bại";
 
             }
+        }
+
+        public static Thuoc TimTheoMaThuoc(String mahh)
+        {
+            // Lấy connection
+            ThuocRepository getstring = new ThuocRepository();
+            string connectstring = getstring.GetConnectString();
+
+            // Câu truy vấn chọn hết dữ liệu từ Database
+            var query = "SELECT pstonkho.mahh,tenhh,dvt,pstonkho.dongia FROM current.pstonkho JOIN current.dmthuoc ON dmthuoc.Mahh = pstonkho.Mahh WHERE pstonkho.mahh = @mahh";
+
+            // Tạo List chứa dữ liệu
+            Thuoc list = new Thuoc();
+
+            //Tạo kết nối
+            NpgsqlConnection conn = new NpgsqlConnection(connectstring);
+
+
+            // Lấy dữ liệu
+            try
+            {
+                conn.Open();
+                NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value = mahh;
+                NpgsqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    // Thêm vào list
+                    list = new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDouble(3));
+                }
+                conn.Close();
+                Console.WriteLine("Thành công");
+                return list;
+            }
+            catch (Exception e)
+            {
+                conn.Close();
+                Console.WriteLine(e.Message);
+                return list;
+            }
+
+
+        }
+
+
+        public static Thuoc TimTheoTenThuoc(String tenhh)
+        {
+            // Lấy connection
+            ThuocRepository getstring = new ThuocRepository();
+            string connectstring = getstring.GetConnectString();
+
+            // Câu truy vấn chọn hết dữ liệu từ Database
+            var query = "SELECT pstonkho.mahh,tenhh,dvt,pstonkho.dongia FROM current.pstonkho JOIN current.dmthuoc ON dmthuoc.Mahh = pstonkho.Mahh WHERE tenhh = @tenhh";
+
+            // Tạo List chứa dữ liệu
+            Thuoc list = new Thuoc();
+
+            //Tạo kết nối
+            NpgsqlConnection conn = new NpgsqlConnection(connectstring);
+
+
+            // Lấy dữ liệu
+            try
+            {
+                conn.Open();
+                NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.Add("@tenhh", NpgsqlDbType.Varchar).Value = tenhh;
+                NpgsqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    // Thêm vào list
+                    list = new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDouble(3));
+                }
+                conn.Close();
+                Console.WriteLine("Thành công");
+                return list;
+            }
+            catch (Exception e)
+            {
+                conn.Close();
+                Console.WriteLine(e.Message);
+                return list;
+            }
+
+
         }
     }
 }

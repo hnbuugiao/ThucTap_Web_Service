@@ -15,6 +15,7 @@ namespace ThucTap_Web_Service.Repositories
     {
         private static string connectstring = new ConnectString().GetConnectString();
         private static NpgsqlConnection conn = new NpgsqlConnection(connectstring);
+        public static ThongBao tb = new ThongBao();
         public static string AddPSCanLanSangToDB(PSCanLamSang cls)
         {
             try
@@ -32,7 +33,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.Parameters.Add("@dongia", NpgsqlDbType.Numeric).Value = cls.Dongia;
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                return "Thêm thành công";
+                return tb.add_successed;
             }
             catch(Exception e)
             {
@@ -60,7 +61,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.Parameters.Add("@dongia", NpgsqlDbType.Numeric).Value = cls.Dongia;
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                return "Sửa thành công";
+                return tb.update_successed;
             }
             catch (Exception e)
             {

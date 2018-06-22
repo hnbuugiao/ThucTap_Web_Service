@@ -9,8 +9,10 @@ using ThucTap_Web_Service.Models;
 
 namespace ThucTap_Web_Service.Repositories
 {
+   
     public class BenhAnRepository
     {
+        public static ThongBao tb = new ThongBao();
         private static string connectstring = new ConnectString().GetConnectString();
         private static NpgsqlConnection conn = new NpgsqlConnection(connectstring);
         public static string AddBenhAn(BenhAn ba)
@@ -25,7 +27,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.Parameters.Add("@ngaylap", NpgsqlDbType.Date).Value = ba.Ngaylap;
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                return "Thêm thành công";
+                return tb.add_successed;
             }
             catch(Exception e)
             {
@@ -46,7 +48,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.Parameters.Add("@ngaylap", NpgsqlDbType.Date).Value = ba.Ngaylap;
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                return "Sửa thành công";
+                return tb.update_successed;
             }
             catch (Exception e)
             {

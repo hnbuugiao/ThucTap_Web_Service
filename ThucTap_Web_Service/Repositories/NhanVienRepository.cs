@@ -19,7 +19,7 @@ namespace ThucTap_Web_Service.Repositories
         {
             return connect.connectionstring;
         }
-
+        public static ThongBao tb = new ThongBao();
         public static string AddNhanVienToDB(NhanVien nhanvien)
         {
 
@@ -44,7 +44,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
-                return "Thêm thành công!";
+                return tb.add_successed;
             }
             // Bắt trường hợp lỗi
             catch (Exception e)
@@ -127,7 +127,7 @@ namespace ThucTap_Web_Service.Repositories
             }
         }
 
-        public static bool SuaThongTinNhanVien(NhanVien nhanvien)
+        public static string SuaThongTinNhanVien(NhanVien nhanvien)
         {
             NhanVienRepository getstring = new NhanVienRepository();
             string connectstring = getstring.GetConnectString();
@@ -147,13 +147,13 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 Console.WriteLine("Thành công");
-                return true;
+                return tb.update_successed;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 conn.Close();
                 Console.WriteLine("Thất bại");
-                return false;
+                return e.Message;
 
             }
         }
@@ -175,13 +175,13 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 Console.WriteLine("Thành công");
-                return query;
+                return "Xóa thành công";
             }
             catch (Exception e)
             {
                 conn.Close();
                 Console.WriteLine("Thất bại");
-                return e.Message;
+                return "Xóa thất bại";
 
             }
         }

@@ -24,7 +24,7 @@ namespace ThucTap_Web_Service.Processors
             return NhanVienRepository.ShowNhanVienFromDB(manv,matkhau);
         }
  
-        public static bool SuaThongTinNhanVien(NhanVien nhanvien)
+        public static string SuaThongTinNhanVien(NhanVien nhanvien)
         {
             return NhanVienRepository.SuaThongTinNhanVien(nhanvien);
         }

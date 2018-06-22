@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -29,15 +30,20 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpGet]
-        public List<PSTonKho> DanhMucPSTonKho()
+        public string DanhMucPSTonKho()
         {
-            return PSTonKhoProcessor.DanhMucPSTonKho();
+            return JsonConvert.SerializeObject(PSTonKhoProcessor.DanhMucPSTonKho());
         }
 
         [HttpGet]
-        public PSTonKho ThongTinPSTonKho(int id)
+        public string ThongTinPSTonKho(int id)
         {
-            return PSTonKhoProcessor.ThongTinPSTonKho(id);
+            PSTonKho pstk = PSTonKhoProcessor.ThongTinPSTonKho(id);
+            if (pstk.ID == 0)
+            {
+                return "NULL";
+            }
+            return JsonConvert.SerializeObject(pstk);
         }
 
         [HttpDelete]

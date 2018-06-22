@@ -25,16 +25,24 @@ namespace ThucTap_Web_Service.Processors
             return ThuocRepository.ShowThuocFromDB(mahh);
         }
 
-        public static bool SuaThongTinThuoc(Thuoc thuoc)
+        public static string SuaThongTinThuoc(Thuoc thuoc)
         {
             return ThuocRepository.SuaThongTinThuoc(thuoc);
         }
 
-        public static bool XoaThuoc(string mahh)
+        public static string XoaThuoc(string mahh)
         {
             return ThuocRepository.XoaThuoc(mahh);
         }
 
+        public static Thuoc TimTheoTenThuoc(string tenthuoc)
+        {
+            return ThuocRepository.TimTheoTenThuoc(tenthuoc);
+        }
+        public static Thuoc TimTheoMaThuoc(string tenthuoc)
+        {
+            return ThuocRepository.TimTheoMaThuoc(tenthuoc);
+        }
 
     }
 }

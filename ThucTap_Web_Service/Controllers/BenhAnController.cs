@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ThucTap_Web_Service.Models;
+using Newtonsoft.Json;
 using ThucTap_Web_Service.Processors;
 
 namespace ThucTap_Web_Service.Controllers
@@ -27,15 +28,20 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpGet]
-        public List<BenhAn> DanhMucBenhAn()
+        public string DanhMucBenhAn()
         {
-            return BenhAnProcessor.DanhMucBenhAn();
+            return JsonConvert.SerializeObject(BenhAnProcessor.DanhMucBenhAn());
         }
 
         [HttpGet]
-        public BenhAn ThongTinBenhAn(string id)
+        public string ThongTinBenhAn(string id)
         {
-            return BenhAnProcessor.ThongTinBenhAn(id);
+            BenhAn ba = BenhAnProcessor.ThongTinBenhAn(id);
+            if (ba.Maba == null)
+            {
+                return "NULL";
+            }
+            return JsonConvert.SerializeObject(ba);
         }
 
         [HttpDelete]

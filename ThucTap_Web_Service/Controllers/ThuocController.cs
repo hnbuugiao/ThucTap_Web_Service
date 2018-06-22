@@ -32,30 +32,64 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpGet]
-        public Thuoc HienThiThuoc(string id)
+        public string HienThiThuoc(string id)
         {
-            return ThuocProcessor.ShowThuoc(id);
+            Thuoc thuoc = ThuocProcessor.ShowThuoc(id);
+            if (thuoc.mahh==null)
+            {
+                return "NULL";
+            }
+            else return JsonConvert.SerializeObject(thuoc);
+            
         }
 
         [HttpPut]
-        public bool SuaThongTin(Thuoc thuoc)
+        public string SuaThongTin(Thuoc thuoc)
         {
             if (thuoc == null)
             {
-                return false;
+                return "NULL";
             }
             return ThuocProcessor.SuaThongTinThuoc(thuoc);
         }
 
 
         [HttpDelete]
-        public bool Xoathuoc(string id)
+        public string Xoathuoc(string id)
         {
             if (id == null)
             {
-                return false;
+                return "Chưa nhập mã thuốc";
             }
             return ThuocProcessor.XoaThuoc(id);
         }
+
+        [Route("Thuoc/TimKiemMa/{id}")]
+        [HttpGet]
+        public string TimTheoMaThuoc(string id)
+        {
+            return JsonConvert.SerializeObject(ThuocProcessor.TimTheoMaThuoc(id));
+        }
+
+        [Route("Thuoc/TimKiemTen/{tenthuoc}")]
+        [HttpGet]
+        public string TimTheoTenThuoc(string tenthuoc)
+        {
+            /*if (tenthuoc == null)
+            {
+                return "xin nhập tên thuốc";
+            }
+            
+            else*/
+            {
+                return JsonConvert.SerializeObject(ThuocProcessor.TimTheoTenThuoc(tenthuoc));
+               // return JsonConvert.DeserializeObject<Thuoc>(thuoc);
+
+     
+            }
+
+
+        }
+
     }
 }
