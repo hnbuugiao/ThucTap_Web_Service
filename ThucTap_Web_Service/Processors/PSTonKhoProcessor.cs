@@ -19,7 +19,7 @@ namespace ThucTap_Web_Service.Processors
             return PSTonKhoRepository.ShowAllPSTonKho();
         }
 
-        public static PSTonKho ThongTinPSTonKho(int id)
+        public static PSTonKho ThongTinPSTonKho(string id)
         {
             return PSTonKhoRepository.ShowPSTonKho(id);
         }
@@ -29,9 +29,11 @@ namespace ThucTap_Web_Service.Processors
             return PSTonKhoRepository.UpdatePSTonKho(psTonKho);
         }
 
-        public static string XoaPSTonKho(int id)
+        public static string XoaPSTonKho(string id)
         {
             return PSTonKhoRepository.DeletePSTonKho(id);
         }
+
+        
     }
 }

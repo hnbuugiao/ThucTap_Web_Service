@@ -7,16 +7,25 @@ using System.Net.Http;
 using System.Web.Http;
 using ThucTap_Web_Service.Models;
 using ThucTap_Web_Service.Processors;
+using ThucTap_Web_Service.Repositories;
 
 namespace ThucTap_Web_Service.Controllers
 {
     public class PSChiTietThuocController : ApiController
     {
 
+        [Route("PSChiTietThuoc/XuatTam")]
+        [HttpPost]
+        public string XuatTam([FromBody]PSChiTietThuoc pschitietthuoc)
+        {
+           // return JsonConvert.SerializeObject(pschitietthuoc);
+            return QuanLyTonKhoRepository.XuatTam(pschitietthuoc);
+        }
+
         [HttpPost]
         public string ThemPSChiTietThuoc([FromBody]PSChiTietThuoc pschitietthuoc)
         {
-
+            //return JsonConvert.SerializeObject(pschitietthuoc);
             return PSChiTietThuocProcessor.ThemPSChiTietThuoc(pschitietthuoc);
         }
 

@@ -22,7 +22,6 @@ namespace ThucTap_Web_Service.Repositories
             {
                 conn.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {

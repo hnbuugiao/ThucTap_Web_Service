@@ -16,14 +16,14 @@ namespace ThucTap_Web_Service.Repositories
         public static ThongBao tb = new ThongBao();
         public static string AddPSTonKho(PSTonKho pstonkho)
         {
-            string query = "INSERT INTO current.pstonkho(mahh,dongia,soluong,tondau,nhap,xuat,toncuoi) VALUES(@mahh,@dongia,@soluong,@tondau,@nhap,@xuat,@toncuoi)";
+            string query = "INSERT INTO current.pstonkho(mahh,dongia,xuattam,tondau,nhap,xuat,toncuoi) VALUES(@mahh,@dongia,@xuattam,@tondau,@nhap,@xuat,@toncuoi)";
             NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
             try
             {
                 conn.Open();
                 cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value =pstonkho.Mahh;
                 cmd.Parameters.Add("@dongia", NpgsqlDbType.Numeric).Value = pstonkho.Dongia;
-                cmd.Parameters.Add("@soluong", NpgsqlDbType.Numeric).Value = pstonkho.Soluong;        
+                cmd.Parameters.Add("@xuattam", NpgsqlDbType.Numeric).Value = pstonkho.Xuattam;        
                 cmd.Parameters.Add("@tondau", NpgsqlDbType.Numeric).Value = pstonkho.Tondau;
                 cmd.Parameters.Add("@nhap", NpgsqlDbType.Numeric).Value = pstonkho.Nhap;
                 cmd.Parameters.Add("@xuat", NpgsqlDbType.Numeric).Value = pstonkho.Xuat;
@@ -41,15 +41,15 @@ namespace ThucTap_Web_Service.Repositories
 
         public static string UpdatePSTonKho(PSTonKho pstonkho)
         {
-            string query = "UPDATE current.pstonkho SET mahh=@mahh,dongia=@dongia,soluong=@soluong,tondau=@tondau,nhap=@nhap,xuat=@xuat,toncuoi=@toncuoi WHERE ID=@ID";
+            string query = "UPDATE current.pstonkho SET dongia=@dongia,xuattam=@xuattam,tondau=@tondau,nhap=@nhap,xuat=@xuat,toncuoi=@toncuoi WHERE mahh=@mahh";
             try
             {
                 conn.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.Add("@ID", NpgsqlDbType.Integer).Value = pstonkho.ID;
+                //cmd.Parameters.Add("@ID", NpgsqlDbType.Integer).Value = pstonkho.ID;
                 cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value = pstonkho.Mahh;
                 cmd.Parameters.Add("@dongia", NpgsqlDbType.Numeric).Value = pstonkho.Dongia;
-                cmd.Parameters.Add("@soluong", NpgsqlDbType.Numeric).Value = pstonkho.Soluong;
+                cmd.Parameters.Add("@xuattam", NpgsqlDbType.Numeric).Value = pstonkho.Xuattam;
                 cmd.Parameters.Add("@tondau", NpgsqlDbType.Numeric).Value = pstonkho.Tondau;
                 cmd.Parameters.Add("@nhap", NpgsqlDbType.Numeric).Value = pstonkho.Nhap;
                 cmd.Parameters.Add("@xuat", NpgsqlDbType.Numeric).Value = pstonkho.Xuat;
@@ -77,7 +77,7 @@ namespace ThucTap_Web_Service.Repositories
                 var reader=cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    listpstonkho.Add(new PSTonKho(reader.GetInt32(0), reader.GetString(1), reader.GetDouble(2), reader.GetInt64(3), reader.GetInt64(4), reader.GetInt64(5), reader.GetInt64(6), reader.GetInt64(7)));
+                    listpstonkho.Add(new PSTonKho( reader.GetString(0), reader.GetDouble(1), reader.GetInt64(2), reader.GetInt64(3), reader.GetInt64(4), reader.GetInt64(5), reader.GetInt64(6)));
                 }
                 conn.Close();
                 
@@ -90,19 +90,19 @@ namespace ThucTap_Web_Service.Repositories
             return listpstonkho;
         }
 
-        public static PSTonKho ShowPSTonKho(int id)
+        public static PSTonKho ShowPSTonKho(string id)
         {
-            string query = "SELECT * FROM current.pstonkho WHERE ID=@ID";
+            string query = "SELECT * FROM current.pstonkho WHERE mahh=@mahh";
             PSTonKho pstonkho = new PSTonKho();
             try
             {
                 conn.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.Add("@ID", NpgsqlDbType.Integer).Value = id;
+                cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value = id;
                 var reader = cmd.ExecuteReader();
-               
-               pstonkho=new PSTonKho(reader.GetInt32(0), reader.GetString(1), reader.GetDouble(2), reader.GetInt64(3), reader.GetInt64(4), reader.GetInt64(5), reader.GetInt64(6), reader.GetInt64(7));
-                
+                while (reader.Read()) { 
+                    pstonkho = new PSTonKho(reader.GetString(0), reader.GetDouble(1), reader.GetInt64(2), reader.GetInt64(3), reader.GetInt64(4), reader.GetInt64(5), reader.GetInt64(6));
+                }
                 conn.Close();
 
             }
@@ -114,15 +114,15 @@ namespace ThucTap_Web_Service.Repositories
             return pstonkho;
         }
 
-        public static string DeletePSTonKho(int id)
+        public static string DeletePSTonKho(string id)
         {
-            string query = "DELETE FROM current.pstonkho WHERE ID=@ID";
+            string query = "DELETE FROM current.pstonkho WHERE mahh=@mahh";
             NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
             try
             {
                 conn.Open();
                 cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.Add("@ID", NpgsqlDbType.Integer).Value = id;
+                cmd.Parameters.Add("@mahh", NpgsqlDbType.Integer).Value = id;
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 return "Xóa thành công";
@@ -131,6 +131,11 @@ namespace ThucTap_Web_Service.Repositories
             {
                 return e.Message;
             }
+        }
+
+        public static string LuuXuatTam(PSTonKho pstonkho)
+        {
+            return "";
         }
     }
 }

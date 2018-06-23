@@ -25,7 +25,7 @@ namespace ThucTap_Web_Service.Repositories
         public static string AddThuocToDB(Thuoc thuoc)
         {
             //Câu lệnh SQL thêm vào Database
-            string query = "INSERT INTO current.dmthuoc VALUES(@mahh,@tenhh,@dtv,@dongia)";
+            string query = "INSERT INTO current.dmthuoc VALUES(@mahh,@tenhh,@dtv)";
 
             //Get connectioin từ folder Conections
             ThuocRepository getstring = new ThuocRepository();
@@ -40,7 +40,6 @@ namespace ThucTap_Web_Service.Repositories
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value = thuoc.mahh;
                 cmd.Parameters.Add("@tenhh", NpgsqlDbType.Varchar).Value = thuoc.tenhh;
-                cmd.Parameters.Add("@dongia", NpgsqlDbType.Double).Value = thuoc.dongia;
                 cmd.Parameters.Add("@dtv", NpgsqlDbType.Varchar).Value = thuoc.dvt;
                 cmd.ExecuteNonQuery();
                 conn.Close();
@@ -80,7 +79,7 @@ namespace ThucTap_Web_Service.Repositories
                 while (reader.Read())
                 {
                     // Thêm vào list
-                    list.Add(new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDouble(3)));
+                    list.Add(new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
                 }
                 conn.Close();
                 Console.WriteLine("Thành công");
@@ -120,7 +119,7 @@ namespace ThucTap_Web_Service.Repositories
                 while (reader.Read())
                 {
                     // Thêm vào list
-                    list = new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDouble(3));
+                    list = new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2));
                 }
                 conn.Close();
                 Console.WriteLine("Thành công");
@@ -142,7 +141,7 @@ namespace ThucTap_Web_Service.Repositories
             string connectstring = getstring.GetConnectString();
 
             // Câu lệnh cập nhật bệnh nhân dựa theo mã bệnh nhân,cập nhật dữ liệu các trường còn lại
-            String query = "UPDATE current.dmthuoc SET tenhh = @tenhh, dvt = @dvt,dongia=@dongia WHERE mahh = @mahh";
+            String query = "UPDATE current.dmthuoc SET tenhh = @tenhh, dvt = @dvt WHERE mahh = @mahh";
             NpgsqlConnection conn = new NpgsqlConnection(connectstring);
 
             try
@@ -151,7 +150,6 @@ namespace ThucTap_Web_Service.Repositories
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.Add("@tenhh", NpgsqlDbType.Varchar).Value = thuoc.tenhh;
                 cmd.Parameters.Add("@dvt", NpgsqlDbType.Varchar).Value = thuoc.dvt;
-                cmd.Parameters.Add("@dongia", NpgsqlDbType.Double).Value = thuoc.dongia;
                 cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value = thuoc.mahh;
                 cmd.ExecuteNonQuery();
                 conn.Close();
@@ -221,7 +219,7 @@ namespace ThucTap_Web_Service.Repositories
                 while (reader.Read())
                 {
                     // Thêm vào list
-                    list = new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDouble(3));
+                    list = new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2));
                 }
                 conn.Close();
                 Console.WriteLine("Thành công");
@@ -264,7 +262,7 @@ namespace ThucTap_Web_Service.Repositories
                 while (reader.Read())
                 {
                     // Thêm vào list
-                    list = new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDouble(3));
+                    list = new Thuoc(reader.GetString(0), reader.GetString(1), reader.GetString(2));
                 }
                 conn.Close();
                 Console.WriteLine("Thành công");

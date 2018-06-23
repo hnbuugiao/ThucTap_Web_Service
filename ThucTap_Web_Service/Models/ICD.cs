@@ -13,8 +13,8 @@ namespace ThucTap_Web_Service.Models
         public ICD() { }
         public ICD(string maicd, string tenviet)
         {
-            maicd = maicd;
-            tenviet = tenviet;
+            this.maicd = maicd;
+            this.tenviet = tenviet;
             
         }
     }

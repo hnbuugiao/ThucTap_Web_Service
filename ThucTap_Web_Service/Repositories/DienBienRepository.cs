@@ -18,6 +18,31 @@ namespace ThucTap_Web_Service.Repositories
  
         public static string AddDienBienToDB(DienBien dienbien)
         {
+            //validate
+            BenhAn ba = BenhAnRepository.ShowBenhAn(dienbien.Maba);
+            if(ba.Maba == null)
+            {
+                return "Bệnh án ko tồn tại";
+            }
+            //BenhNhan bn =BenhNhanRepository.ShowBenhNhanFromDB(dienbien.Mabn);
+          //  NhanVien nv = NhanVienRepository.ShowNhanVienFromDB(dienbien.Manv);
+            ICD icdchinh = ICDRepository.ShowICD(dienbien.Maicd) ;
+
+            if (icdchinh.maicd == null)
+            {
+                return "Mã icd không tồn tại";
+            }
+            
+            
+            var tenicd = icdchinh.tenviet;
+            var icdphu=new ICD();
+            if (dienbien.Maicdp != "")
+            {
+                icdphu = ICDRepository.ShowICD(dienbien.Maicdp);
+            }
+            var tenicdp = dienbien.Tenicdp;
+            
+
             //Cấu trúc connection
             //var connectionstring = "Server=127.0.0.1;Port=5432;User Id=postgres;Password=123456;Database=svthuctap;";
             //check benh an ton tai

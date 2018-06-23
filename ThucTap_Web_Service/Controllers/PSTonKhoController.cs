@@ -36,10 +36,10 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpGet]
-        public string ThongTinPSTonKho(int id)
+        public string ThongTinPSTonKho(string id)
         {
             PSTonKho pstk = PSTonKhoProcessor.ThongTinPSTonKho(id);
-            if (pstk.ID == 0)
+            if (pstk.Mahh == null)
             {
                 return "NULL";
             }
@@ -47,7 +47,7 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpDelete]
-        public string XoaPSTonKho(int id)
+        public string XoaPSTonKho(string id)
         {
             return PSTonKhoProcessor.XoaPSTonKho(id);
         }
