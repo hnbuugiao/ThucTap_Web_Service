@@ -95,6 +95,8 @@ namespace ThucTap_Web_Service.Repositories
             }
         }
 
+        
+
         public static string PhatThuoc(PSChiTietThuoc pschitietthuoc)
         {
             // return JsonConvert.SerializeObject(pschitietthuoc);

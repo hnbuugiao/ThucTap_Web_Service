@@ -186,6 +186,7 @@
     <Compile Include="Connections\ConnectString.cs" />
     <Compile Include="Controllers\ICDController.cs" />
     <Compile Include="Controllers\QuanLyTonKhoController.cs" />
+    <Compile Include="Controllers\ToaThuocController.cs" />
     <Compile Include="Models\ICD.cs" />
     <Compile Include="Repositories\ICDRepository.cs" />
     <Compile Include="Repositories\QuanLyTonKhoRepository.cs" />

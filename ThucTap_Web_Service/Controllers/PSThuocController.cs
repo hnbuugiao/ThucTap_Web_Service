@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using ThucTap_Web_Service.Models;
 using ThucTap_Web_Service.Processors;
+using ThucTap_Web_Service.Repositories;
 
 namespace ThucTap_Web_Service.Controllers
 {
@@ -18,6 +19,8 @@ namespace ThucTap_Web_Service.Controllers
 
             return PSThuocProcessor.ThemPSThuoc(psthuoc);
         }
+
+      
 
         [HttpPut]
         public string SuaPSThuoc([FromBody]PSThuoc psthuoc)

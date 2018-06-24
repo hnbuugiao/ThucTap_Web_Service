@@ -63,6 +63,8 @@ namespace ThucTap_Web_Service.Repositories
             }
         }
 
+        
+
         public static List<PSThuoc> ShowAllPSThuoc()
         {
             List<PSThuoc> listpsthuoc = new List<PSThuoc>();
