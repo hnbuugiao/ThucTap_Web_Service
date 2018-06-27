@@ -41,10 +41,10 @@ namespace ThucTap_Web_Service.Controllers
         }
 
         [HttpGet]
-        public string HienThiDienBien(string madb)
+        public string HienThiDienBien(string id)
         {
             DienBien db = new DienBien();
-            db = DienBienProcessor.ShowDienBien(madb);
+            db = DienBienProcessor.ShowDienBien(id);
             if (db.Iddienbien == null)
                 return "NULL";
             var convertJson = JsonConvert.SerializeObject(db);
