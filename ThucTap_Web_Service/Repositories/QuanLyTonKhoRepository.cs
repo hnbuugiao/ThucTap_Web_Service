@@ -18,14 +18,15 @@ namespace ThucTap_Web_Service.Repositories
         public static ThongBao tb = new ThongBao();
         public static string XuatTam(PSChiTietThuoc pschitietthuoc)
         {
-           // return JsonConvert.SerializeObject(pschitietthuoc);
+            // return JsonConvert.SerializeObject(pschitietthuoc);
 
 
             try
             {
                 DienBien dienbien = DienBienRepository.ShowDienBienFromDB(pschitietthuoc.Iddienbien);
                 //kiểm tra diễn biến có tòn tại ko
-                if (dienbien.Iddienbien==null) {
+                if (dienbien.Iddienbien == null)
+                {
                     return "Mã diễn biên không tôn tại";
                 }
                 if (dienbien.Mabn != pschitietthuoc.Mabn)
@@ -53,9 +54,9 @@ namespace ThucTap_Web_Service.Repositories
                 {
                     return "Mã thuốc không tôn tại trong tồn kho";
                 }
-                
 
-                
+
+
 
                 if (dongia != thuoctonkho.Dongia)
                 {
@@ -64,18 +65,18 @@ namespace ThucTap_Web_Service.Repositories
 
                 //kiem tra thanh tien
                 var sotien = dongia * soluong;
-                if (thanhtien != sotien)
-                {
-                    return sotien + "khác" + thanhtien + ": client và server tính khác nhau";
-                }
+                /* if (thanhtien != sotien)
+                 {
+                    // return sotien + "khác" + thanhtien + ": client và server tính khác nhau";
+                 }*/
 
                 //kiểm tra lại số thuốc trong pstonkho lần nữa
                 PSTonKho pstonkho = PSTonKhoRepository.ShowPSTonKho(mathuoc);
-                if(pstonkho.Xuattam+soluong <=pstonkho.Tondau)
+                if (pstonkho.Xuattam + soluong <= pstonkho.Tondau)
                     pstonkho.Xuattam += soluong;
                 //so thuoc cho phep ghi vào tao
-                var tondau= pstonkho.Tondau - pstonkho.Xuattam;
-                if( tondau<0)
+                var tondau = pstonkho.Tondau - pstonkho.Xuattam;
+                if (tondau < 0)
                 {
                     return "không đủ thuốc";
                 }
@@ -95,7 +96,81 @@ namespace ThucTap_Web_Service.Repositories
             }
         }
 
-        
+
+            public static string HuyXuatTam(PSChiTietThuoc pschitietthuoc)
+            {
+                // return JsonConvert.SerializeObject(pschitietthuoc);
+
+
+                try
+                {
+                    DienBien dienbien = DienBienRepository.ShowDienBienFromDB(pschitietthuoc.Iddienbien);
+                    //kiểm tra diễn biến có tòn tại ko
+                    if (dienbien.Iddienbien == null)
+                    {
+                        return "Mã diễn biên không tôn tại";
+                    }
+                    if (dienbien.Mabn != pschitietthuoc.Mabn)
+                    {
+
+                    }
+
+                    if (dienbien.Maba != pschitietthuoc.Maba)
+                    {
+
+                    }
+
+                    if (dienbien.Makhoa != pschitietthuoc.Makhoa)
+                    {
+
+                    }
+
+                    var mathuoc = pschitietthuoc.Mahh;
+                    var dongia = pschitietthuoc.Dongia;
+                    var soluong = pschitietthuoc.Soluong;
+                    var thanhtien = pschitietthuoc.Thanhtien;
+                    //kiem tra ma thuoc co ton tai trong pstonkho
+                    var thuoctonkho = PSTonKhoRepository.ShowPSTonKho(mathuoc); // lấy thông tin từ bảng pstonkho
+                    if (thuoctonkho.Mahh == null)
+                    {
+                        return "Mã thuốc không tôn tại trong tồn kho";
+                    }
+
+
+
+
+                    if (dongia != thuoctonkho.Dongia)
+                    {
+                        return "Sai đơn giá";
+                    }
+
+                    //kiem tra thanh tien
+                    var sotien = dongia * soluong;
+                    /* if (thanhtien != sotien)
+                     {
+                        // return sotien + "khác" + thanhtien + ": client và server tính khác nhau";
+                     }*/
+
+                    //kiểm tra lại số thuốc trong pstonkho lần nữa
+                    PSTonKho pstonkho = PSTonKhoRepository.ShowPSTonKho(mathuoc);
+                    //if (pstonkho.Xuattam + soluong <= pstonkho.Tondau)
+                    pstonkho.Xuattam -= soluong;
+               
+                    pstonkho.Tondau += soluong;
+                    
+                    PSTonKhoRepository.UpdatePSTonKho(pstonkho);
+                    return JsonConvert.SerializeObject(PSTonKhoRepository.ShowPSTonKho(mathuoc));
+
+
+                }
+                catch (Exception e)
+                {
+                    conn.Close();
+                    return e.Message;
+                }
+            }
+
+
 
         public static string PhatThuoc(PSChiTietThuoc pschitietthuoc)
         {

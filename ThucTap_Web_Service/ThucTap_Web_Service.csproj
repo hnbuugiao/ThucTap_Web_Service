@@ -188,6 +188,7 @@
     <Compile Include="Controllers\QuanLyTonKhoController.cs" />
     <Compile Include="Controllers\ToaThuocController.cs" />
     <Compile Include="Models\ICD.cs" />
+    <Compile Include="Models\ToaThuoc.cs" />
     <Compile Include="Repositories\ICDRepository.cs" />
     <Compile Include="Repositories\QuanLyTonKhoRepository.cs" />
     <Compile Include="ThongBao.cs" />

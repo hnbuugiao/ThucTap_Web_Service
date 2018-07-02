@@ -20,6 +20,8 @@ namespace ThucTap_Web_Service.Repositories
             NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
             try
             {
+                var dongia = pschitietthuoc.Dongia;
+                var soluong = pschitietthuoc.Soluong;
                 conn.Open();
                 cmd.Parameters.Add("@Idpsthuoc", NpgsqlDbType.Varchar).Value = pschitietthuoc.Idpsthuoc;
                 cmd.Parameters.Add("@Iddienbien", NpgsqlDbType.Varchar).Value = pschitietthuoc.Iddienbien;
@@ -29,7 +31,7 @@ namespace ThucTap_Web_Service.Repositories
                 cmd.Parameters.Add("@mahh", NpgsqlDbType.Varchar).Value = pschitietthuoc.Mahh;
                 cmd.Parameters.Add("@dongia", NpgsqlDbType.Numeric).Value = pschitietthuoc.Dongia;
                 cmd.Parameters.Add("@soluong", NpgsqlDbType.Numeric).Value = pschitietthuoc.Soluong;
-                cmd.Parameters.Add("@thanhtien", NpgsqlDbType.Numeric).Value = pschitietthuoc.Thanhtien;
+                cmd.Parameters.Add("@thanhtien", NpgsqlDbType.Numeric).Value = dongia*soluong;
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 return tb.add_successed;
@@ -48,6 +50,7 @@ namespace ThucTap_Web_Service.Repositories
             try
             {
                 conn.Open();
+                
                 NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.Add("@ID", NpgsqlDbType.Integer).Value = pschitietthuoc.ID;
                 cmd.Parameters.Add("@Idpsthuoc", NpgsqlDbType.Varchar).Value = pschitietthuoc.Idpsthuoc;

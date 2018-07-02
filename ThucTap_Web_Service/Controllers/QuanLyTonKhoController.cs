@@ -20,6 +20,17 @@ namespace ThucTap_Web_Service.Controllers
             return QuanLyTonKhoRepository.XuatTam(pschitietthuoc);
         }
 
+        [Route("PSTonKho/HuyXuatTam")]
+        [HttpPost]
+        public string HuyXuatTam([FromBody]PSChiTietThuoc pschitietthuoc)
+        {
+            //return JsonConvert.SerializeObject(pschitietthuoc);
+            return QuanLyTonKhoRepository.HuyXuatTam(pschitietthuoc);
+        }
+
+
+        
+
 
         [Route("PSTonKho/PhatThuoc")]
         [HttpPost]

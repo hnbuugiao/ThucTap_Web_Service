@@ -11,8 +11,10 @@ namespace ThucTap_Web_Service.Repositories
     {
         public static ThongBao tb = new ThongBao();
         //Lưu toa thuốc nhập vào thông tin PSthuoc (toa thuoc ) và danh sách pschitietthuoc
-        public static string NhapToaThuoc(PSThuoc toa, List<PSChiTietThuoc> chitietthuoc)
+        public static string NhapToaThuoc(ToaThuoc toathuoc)
         {
+            var toa = toathuoc.Toa;
+            var chitietthuoc = toathuoc.Chitietthuoc;
             foreach (PSChiTietThuoc thuoc in chitietthuoc)
             {
                 if (thuoc.Idpsthuoc != toa.Idpsthuoc)
@@ -31,6 +33,15 @@ namespace ThucTap_Web_Service.Repositories
             }
 
             return tb.add_failed;
+        }
+
+        public static void HuyToaThuoc(List<PSChiTietThuoc> chitietthuoc)
+        {
+            foreach (PSChiTietThuoc thuoc in chitietthuoc)
+            {
+               var huytoa= QuanLyTonKhoRepository.HuyXuatTam(thuoc);
+            }
+         
         }
     }
 }

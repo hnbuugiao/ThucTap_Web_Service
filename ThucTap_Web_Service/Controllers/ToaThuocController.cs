@@ -13,10 +13,20 @@ namespace ThucTap_Web_Service.Controllers
     {
         [Route("ToaThuoc/LuuToa/")]
         [HttpPost]
-        public string LuuToa([FromBody]PSThuoc psthuoc, List<PSChiTietThuoc> psctthuoc)
+        public string LuuToa([FromBody]ToaThuoc toathuoc)
         {
 
-            return ToaThuocRepository.NhapToaThuoc(psthuoc, psctthuoc);
+            return ToaThuocRepository.NhapToaThuoc(toathuoc);
+        }
+
+        [Route("ToaThuoc/HuyToa")]
+        [HttpPost]
+        public void HuyToa([FromBody]List<PSChiTietThuoc> pschitietthuoc)
+        {
+            //return JsonConvert.SerializeObject(pschitietthuoc);
+
+            ToaThuocRepository.HuyToaThuoc(pschitietthuoc);
+
         }
     }
 }
