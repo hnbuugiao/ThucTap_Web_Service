@@ -75,7 +75,7 @@ namespace ThucTap_Web_Service.Repositories
                 if (pstonkho.Xuattam + soluong <= pstonkho.Tondau)
                     pstonkho.Xuattam += soluong;
                 //so thuoc cho phep ghi vào tao
-                var tondau = pstonkho.Tondau - pstonkho.Xuattam;
+                var tondau = pstonkho.Tondau -soluong;
                 if (tondau < 0)
                 {
                     return "không đủ thuốc";
